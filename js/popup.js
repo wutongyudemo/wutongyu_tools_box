@@ -22,13 +22,13 @@ $(document).ready(function(){
   //whois查询功能代码
   $("#whois").click(function(){
     var json = "json";
-    var appkey = "10572";
-    var sign = "f6259bb9a84546f0dee60393c9860f89";
+    var appkey = "10003";
+    var sign = "b59bc3ef6191eb9f747dd4e83c99f2a4";
     var app = "domain.whois";
     var domain = $("#domain").val();
     $.get("http://api.k780.com:88/index.php",{app:app,domain:domain,appkey:appkey,sign:sign,format:json},function(data){
         try{
-          var domaininfo = data
+          var domaininfo = JSON.parse(data);
           $(".adminname").html(domaininfo.result.registrar);
           $(".adminemail").html(domaininfo.result.contact_email);
           $(".sponsoring").html(domaininfo.result.sponsoring_registrar);
@@ -41,40 +41,49 @@ $(document).ready(function(){
         }
     })
   })
-  //手机号码查询功能代码 /* 2015.1.4*/
+  //手机号码查询功能代码 /* 2014.3.10*/
     $("#phoneselect").click(function(){
     var json = "json";
     var app = "phone.get";
-    var appkey = "10572";
-    var sign = "f6259bb9a84546f0dee60393c9860f89";
+    var appkey = "10003";
+    var sign = "b59bc3ef6191eb9f747dd4e83c99f2a4";
     var phone = $("#telphone").val();
     $.get("http://api.k780.com:88/index.php",{app:app,phone:phone,appkey:appkey,sign:sign,format:json},function(data){
         try{
-          var phoneinfo = data;
+          var phoneinfo = JSON.parse(data);
           $(".area").html(phoneinfo.result.area);
           $(".postno").html(phoneinfo.result.postno);
           $(".ctype").html(phoneinfo.result.ctype);
           $(".operators").html(phoneinfo.result.operators);
           $(".style_citynm").html(phoneinfo.result.style_citynm);
-          
         }
         catch(err){
-          alert("查询失败!");
+          alert(phoneinfo.msg);
         }
     })
   })
   //短地址转换功能代码
   $("#shorturlclick").click(function(){
     var long = $("#long-url").val(); //获取长链接 
-    var url = "http://50r.cn/short_url.json"; 
-        $.get(url,{url:url},function(data){
-        try{
-          $("#short-url").val(data.url);          
-        }
-        catch(err){
-          alert("查询失败!");
-        }
-    })
+    var short = $("#short-url");  //声明一个变量通过下面的append插入值
+    var getobj = "https://api.weibo.com/2/short_url/shorten.json"; 
+    var app_key = "211160679";//app_key无效可能会导致无反应； 
+    var geturl = getobj + "?source=" + app_key + "&url_long=" + long; 
+    var message=""; 
+    $.ajax({ 
+    url: geturl, 
+    type: "GET", 
+    dataType: "jsonp", //使用JSONP方法进行AJAX,防止不能跨域.同时需要在Manifest.json声明csp权限 
+    cache: false, 
+    success: function (data, status) { 
+    //获取回传的信息； 
+    for(x in data.data.urls[0]) message += x+'='+data.data.urls[0][x]+'&'; 
+    short.append( data.data.urls[0].url_short + "<br>"); 
+    }, 
+    error: function(obj,info,errObj){ 
+    alert("$.ajax()中发生错误：" + info); 
+    } 
+    }); 
   })
   $("#shorturlclear").click(function(){
       $("#long-url").val("");
@@ -83,12 +92,18 @@ $(document).ready(function(){
   //旁站查询功能代码
   $("#select-other-site").click(function(){
     var site = $("#site").val();
-    $.get("http://dns.aizhan.com/index.php",{r:"index/domains",ip:site},function(data){
+    var json = "json";
+    $.get("http://domains.yougetsignal.com/domains.php",{remoteAddress:site},function(data){
+      try{
         var siteinfo = JSON.parse(data);
-        $(".count").html("共计"+siteinfo.conut+"个站点,站点ip为:"+site);
-        var info = siteinfo.domains.join();
+        $(".count").html("共计"+siteinfo.domainCount+"个站点,站点ip为:"+siteinfo.remoteIpAddress);
+        var info = siteinfo.domainArray.join(); //将查询数组转换为字符串
         var str = info.replace(/\,/g,"\r"); //替换逗号为换行符
-        $("#other-result").html(str);//输出结果        
+        $("#other-result").html(str);//输出结果
+      }
+      catch(err){
+        alert("查询失败!");
+      }
     })
   })
   $("#clearsite").click(function(){
@@ -106,7 +121,7 @@ $(document).ready(function(){
     $("#results").val("");
   })
   $("#loads").click(function(){
-  var i = new Array(80,8080,873,3128,8081,9080,1080,21,23,443,27017,28017,27080,8098,7474,9160,5984,9000,69,22,25,110,7001,9090,3389,1521,1158,2100,1433,3306,135,8000);
+  var i = new Array(80,8080,3128,8081,9080,1080,21,23,443,27017,28017,27080,8098,7474,9160,5984,9000,69,22,25,110,7001,9090,3389,1521,1158,2100,1433,3306,135,8000);
   document.getElementById("port").value = i;
   })
   $("#loaddir").click(function(){
@@ -213,31 +228,7 @@ $("#urlcoding").val(htmlurlcoding($("#urlcoding").val()));
 $("#clearurl").click(function(){
   $("#urlcoding").val("");
 })
-//多级域名查询代码 2015.1.6新增
-$("#select-website").click(function(){
-  var website = $("#website").val();
-  var api = "http://i.links.cn/subdomain/";
-  var content = RegExp("<div[^>]*class=domain[^>]*>.*<a[^>]*>(.*?)<\/a><\/div>","g");
-      $.post(api,{domain:website,b2:"1",b3:"1",b4:"1"},function(data){
-        try{
-          $(".counts").html("总计"+data.match(content).length+"条");
-          var tostring = data.match(content).toString();
-          //三次匹配
-          var str = tostring.replace(/<div[^>]*class=domain[^>]*><input[^>]*><input[^>]*>/g,"");
-          var res = str.replace(/<\/a><\/div>/g,"\r");
-          var result = res.replace(/<a[^>]*>/g,"");
-          var results = result.replace(/\,/g,"");
-          $("#website-result").html(results);
-        }
-        catch(err){
-          alert("查询失败!");
-        }
-    })
 
-})
-$("#clearwebsite").click(function(){
-    $("#website-result").html("");
-})
 //js转义功能代码
 //转unicode
 var decToHex = function(str) {

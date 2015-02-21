@@ -53,7 +53,6 @@
             <li><a href="#dropdown16" tabindex="-1" data-toggle="tab">文本批量替换</a></li>
             <li><a href="#dropdown17" tabindex="-1" data-toggle="tab">手机号码归属地查询</a></li>
             <li><a href="#dropdown18" tabindex="-1" data-toggle="tab">短网址转换</a></li>
-            <li><a href="#dropdown19" tabindex="-1" data-toggle="tab">多级域名查询</a></li>
           </ul>
         </li>
         <li class=""><a href="#profile" data-toggle="tab">关 于</a></li>
@@ -204,7 +203,7 @@
           </form>
         </div>
         <div class="tab-pane fade" id="dropdown15">
-          <p>请输入你要查询的域名：</p><input type="text" id="site" class="form-control"/> 
+          <p>请输入你要查询的网站：</p><input type="text" id="site" class="form-control"/> 
           <p style="padding-top:5px">旁站查询结果：<span class="count"></span></p><textarea id="other-result" class="form-control"  rows="6" cols="75"></textarea>
          <input class="btn btn-primary" type="submit" value="查询" id="select-other-site"/>
          <input class="btn btn-danger" type="button" value="清空" id="clearsite"/>
@@ -231,22 +230,16 @@
         完整归属地：<span class="style_citynm"></span>
         </div>
         <div class="tab-pane fade" id="dropdown18"> 
-        <p>请在文本框输入你需要转换的网址：不需要加http://</p>
+        <p>请在文本框输入你需要转换的网址：需要加http://</p>
         <textarea id="long-url" class="form-control"  rows="3" cols="75"></textarea>
         <p style="padding-top:5px">转换结果：</p>
         <textarea id="short-url" class="form-control"  rows="3" cols="75"></textarea>
-        <p>目前只支持转换为50r.cn:)</p>
+        <p>目前只支持转换为t.cn:)</p>
         <input type="button" value="转换" id="shorturlclick" class="btn btn-primary"/>
         <input type="button" value="清空" id="shorturlclear" class="btn btn-danger"/>
-        </div>
-        <div class="tab-pane fade" id="dropdown19">
-          <p>请输入你要查询的域名：</p><input type="text" id="website" class="form-control"/> 
-          <p style="padding-top:5px">域名查询结果：<span class="counts"></span></p><textarea id="website-result" class="form-control"  rows="6" cols="75"></textarea>
-         <input class="btn btn-primary" type="submit" value="查询" id="select-website"/>
-         <input class="btn btn-danger" type="button" value="清空" id="clearwebsite"/>
         </div>
       </div>
     </div>
   </div>
 </body>
-</html>
+</html
