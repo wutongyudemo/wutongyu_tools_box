@@ -3,7 +3,7 @@
     "name": "梧桐雨工具箱",
     "version": "1.2",
     "description": "梧桐雨的工具箱,包含了一些常用的浏览器安全模块与常用工具.",
-    "icons": {
+    "icons": { 
         "16": "images/icon16.png",
         "48": "images/icon48.png",
         "128": "images/icon128.png"
