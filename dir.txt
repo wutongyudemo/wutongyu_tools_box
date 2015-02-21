@@ -119,4 +119,6 @@ Search.action,
 Search,
 Templets,
 User/reg,
-Vote
+Vote,
+zabbix,
+.git
