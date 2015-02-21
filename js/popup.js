@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  //ip查询功能代码
+  //ip查询功能代码 
   $("#ipselect").click(function(){
     var ip = $("#ip").val();
     var json = "json";

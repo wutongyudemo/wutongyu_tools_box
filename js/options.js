@@ -1,5 +1,5 @@
 var interval = localStorage.interval;
-interval = interval?interval:'2'; //默认设置2小时
+interval = interval?interval:'2'; //默认设置2小时 
 document.getElementById('interval').value = interval;
 document.getElementById('save').onclick = function(){
     localStorage.interval = document.getElementById('interval').value;
