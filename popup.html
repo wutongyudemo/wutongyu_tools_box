@@ -38,6 +38,7 @@
             <li><a href="#dropdown8" tabindex="-1" data-toggle="tab">html转义</a></li>
             <li><a href="#dropdown9" tabindex="-1" data-toggle="tab">调用外部js生成</a></li>
             <li><a href="#dropdown10" tabindex="-1" data-toggle="tab">String.fromCharCode</a></li>
+			<li><a href="#dropdown20" tabindex="-1" data-toggle="tab">base64编解码</a></li>
             
           </ul>
         </li>
@@ -156,6 +157,13 @@
           <h3>请输入要转换的字符:</h3>
           <textarea id="stringfromcharcode" class="form-control"  rows="7" cols="75"></textarea>
         <input type="button" class="btn btn-primary" id="transformation" value="转换" />
+        <input type="button" class="btn btn-info" id="clearstring" value="清空" />
+        </div>
+        <div class="tab-pane fade" id="dropdown20">
+          <h3>请输入要编码的字符:</h3>
+          <textarea id="base64" class="form-control"  rows="7" cols="75"></textarea>
+        <input type="button" class="btn btn-danger" id="base64encode" value="编码" />
+		<input type="button" class="btn btn-primary" id="base64decode" value="解码" />
         <input type="button" class="btn btn-info" id="clearstring" value="清空" />
         </div>
         <div class="tab-pane fade" id="dropdown11">

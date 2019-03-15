@@ -374,6 +374,25 @@ $("#transformation").click(function(){
 $("#clearstring").click(function(){
   $("#stringfromcharcode").val("");
 })
+ //2018.12.28新增
+function base64encode(str) {
+        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+            function toSolidBytes(match, p1) {
+                return String.fromCharCode('0x' + p1);
+            }));
+    }
+function base64decode(str) {
+        return decodeURIComponent(atob(str).split('').map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+}
+ $("#base64encode").click(function(){
+	 $("#base64").val(base64encode($("#base64").val()));
+ })
+ $("#base64decode").click(function(){
+	 $("#base64").val(base64decode($("#base64").val()));
+ })
+
 //文本批量替换代码
 $("#replace").click(function(){
   var textcontent = $("#replace-text").val();
@@ -460,6 +479,7 @@ $(".clearall").click(function(){
         });
     }
   })
+
   $(".website").click(function(){
     chrome.tabs.create(
     {url:"http://wutongyu.info"}
